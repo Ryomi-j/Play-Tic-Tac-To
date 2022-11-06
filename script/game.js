@@ -1,8 +1,30 @@
+function resetGameStatus() {
+  activePlayer = 0;
+  currentRound = 1;
+  gameIsOver = false;
+  gameOverElement.firstElementChild.innerHTML =
+    'You won, <span id="winner-name">PLAYER NAME</span>!';
+  gameOverElement.style.display = "none";
+
+  let gameBoardIndex = 0;
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      gameData[i][j] = 0;
+      const gameBoardItemElement = gameBoardElement.children[gameBoardIndex];
+      gameBoardElement.children[gameBoardIndex].textContent = '';
+      gameBoardItemElement.classList.remove('disabled');
+      gameBoardIndex++;
+    }
+  }
+}
+
 function startNewGame() {
   if (!players[0].name || !players[1].name) {
     alert("Please set custom player names for both players!");
     return;
   }
+
+  resetGameStatus();
 
   activePlayerNameElement.textContent = players[activePlayer].name;
   gameAreaElement.style.display = "block";
@@ -27,7 +49,7 @@ function switchPlayer() {
 
 // ol을 선택하는 경우
 function selectGameField(event) {
-  if (event.target.tagName !== "LI") {
+  if (event.target.tagName !== "LI" || gameIsOver) {
     // ol의 li 이외 부분을 클릭하는 경우 배제
     return;
   }
@@ -48,6 +70,10 @@ function selectGameField(event) {
 
   const winnerId = checkForGameOver();
 
+  if (winnerId !== 0) {
+    endGame(winnerId);
+  }
+
   currentRound++;
   switchPlayer();
 }
@@ -64,7 +90,8 @@ function checkForGameOver() {
     }
   }
 
-  for (let i = 0; i < 3; i++) {    //for columns
+  for (let i = 0; i < 3; i++) {
+    //for columns
     if (
       gameData[0][i] > 0 &&
       gameData[0][i] === gameData[1][i] &&
@@ -91,9 +118,23 @@ function checkForGameOver() {
     return gameData[2][0];
   }
 
-  if (currentRound === 9) {  // 무승부 처리
+  if (currentRound === 9) {
+    // 무승부 처리
     return -1;
   }
 
   return 0; // 아직 승자가 없음
+}
+
+function endGame(winnerId) {
+  gameOverElement.style.display = "block";
+
+  if (winnerId > 0) {
+    gameIsOver = true;
+    const winnerName = players[winnerId - 1].name;
+    gameOverElement.firstElementChild.firstElementChild.textContent =
+      winnerName;
+  } else {
+    gameOverElement.firstElementChild.textContent = "It's a draw!";
+  }
 }
