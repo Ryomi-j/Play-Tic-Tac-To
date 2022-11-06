@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="overlays.css" />
     <link rel="stylesheet" href="configuration.css" />
     <link rel="stylesheet" href="game.css" />
-    <script src="app.js" defer></script>
+    <script src="script/config.js" defer></script>
+    <script src="script/game.js" defer></script>
+    <script src="script/app.js" defer></script>
     <title>Tic, Tac, Toe!</title>
   </head>
   <body>
@@ -32,7 +34,7 @@
             <input type="text" name="playername" id="playername" />
           </div>
           <div>
-            <button type="button" class="btn btn-alt">Cancel</button>
+            <button type="button" class="btn btn-alt" id="cancel-config-btn">Cancel</button>
             <button type="submit" class="btn">Confirm</button>
           </div>
         </form>
@@ -44,7 +46,7 @@
               <h2>Player 1</h2>
               <h3>PLAYER NAME</h3>
               <p class="player-symbol">X</p>
-              <button class="btn btn-alt">Edit</button>
+              <button class="btn btn-alt" id="player1-edit-btn">Edit</button>
             </article>
           </li>
           <li>
@@ -52,7 +54,7 @@
               <h2>Player 2</h2>
               <h3>PLAYER NAME</h3>
               <p class="player-symbol">O</p>
-              <button class="btn btn-alt">Edit</button>
+              <button class="btn btn-alt" id="player2-edit-btn">Edit</button>
             </article>
           </li>
         </ol>
